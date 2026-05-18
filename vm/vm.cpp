@@ -1,5 +1,4 @@
 #include "vm.h"
-#include "opcode.h"
 #include <stdexcept>
 #include <iostream>
 

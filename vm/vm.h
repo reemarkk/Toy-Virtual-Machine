@@ -1,8 +1,8 @@
 #pragma once 
 #include <vector>
 #include <stack>
-#include "instruction.h"
-#include "opcode.h"
+#include "core/instruction.h"
+#include "core/opcode.h"
 
 class VM{
         public:
