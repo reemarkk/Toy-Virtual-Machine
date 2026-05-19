@@ -1,19 +1,35 @@
-#include "vm.h"
-#include <vector>
 #include <iostream>
 
-int main(){
-   std::vector<Instruction> program =
-   {
-    {PUSH, 5},
-    {PUSH, 3},
-    {ADD, 0},
-    {PUSH, 2},
-    {MUL, 0},
-    {HLT, 0}
-   };
+#include "assembler/assembler.h"
+#include "vm/vm.h"
 
-    VM vm(program);
-    std::cout<<"Running VM..."<<std::endl;
-    vm.run();
+int main() {
+
+    std::string code = R"(
+
+        PUSH 5
+        PUSH 3
+        ADD
+
+        PUSH 2
+        MUL
+
+        HLT
+
+    )";
+
+    try {
+
+        std::vector<Instruction> program = assemble(code);
+
+        VM vm(program);
+
+        vm.run();
+    }
+    catch (const std::exception& e) {
+
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+
+    return 0;
 }

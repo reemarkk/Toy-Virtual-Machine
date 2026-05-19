@@ -4,6 +4,14 @@
 
 VM::VM(const std::vector<Instruction>& program) : program(program), ip(0), running(true) {}
 
+void VM::jump(int address){
+    if(address < 0 || address >= program.size()){
+        running = false;
+        throw std::runtime_error("Jump address out of bounds");
+    }
+    ip = address;
+}
+
 void VM::run(){
 
     while(running){
@@ -24,6 +32,10 @@ void VM::run(){
             stack.pop();
             break;
         case opcode::ADD:{
+            if (stack.size() < 2) {
+                running = false;
+                throw std::runtime_error("Not enough elements on the stack for ADD operation");
+            }
             int b = stack.top(); stack.pop();
             int a = stack.top(); stack.pop();
             stack.push(a + b);
@@ -58,12 +70,18 @@ void VM::run(){
         case opcode::HLT:
             running = false;
             break;
-        case opcode::PRINT:
+        case opcode::PRINT:{
             std::cout << "Top of stack: " << stack.top() << std::endl;
-            break;
-        case opcode::JMP:
+            
+            if (stack.empty()) {
+                running = false;
+                throw std::runtime_error("Not enough elements on the stack for JZ operation");
+            }
+            int value = stack.top(); stack.pop();
             ip = instr.operand;
             break;
+        }
+
         case opcode::JZ:{
             int value = stack.top(); stack.pop();
             if(value == 0){
