@@ -82,7 +82,6 @@ g++ main.cpp \
 vm/vm.cpp \
 assembler/assembler.cpp \
 assembler/parser.cpp \
-core/stack.cpp \
 -o vm
 ```
 
