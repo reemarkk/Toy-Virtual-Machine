@@ -70,18 +70,14 @@ void VM::run(){
         case opcode::HLT:
             running = false;
             break;
-        case opcode::PRINT:{
-            std::cout << "Top of stack: " << stack.top() << std::endl;
-            
+        case opcode::PRINT: {
             if (stack.empty()) {
-                running = false;
-                throw std::runtime_error("Not enough elements on the stack for JZ operation");
+                throw std::runtime_error("Stack is empty");
             }
-            int value = stack.top(); stack.pop();
-            ip = instr.operand;
+        
+            std::cout << stack.top() << std::endl;
             break;
         }
-
         case opcode::JZ:{
             int value = stack.top(); stack.pop();
             if(value == 0){
